@@ -20,24 +20,28 @@ endDate = datetime.strptime('2025-02-28', '%Y-%m-%d')
 # 指定最小时间跨度
 spanTime = relativedelta(months = 3)
 
-# 获取随机时间点并去掉时间部分
-randTime = randomDate(startDate, endDate - spanTime).date()
-
+# 设置参数
+ticker = 'QQQ'  # 纳斯达克100 ETF
 
 # 设置字体为 SimHei（黑体），以支持中文
 rcParams['font.sans-serif'] = ['SimHei']  # 使用黑体
 rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
 
-# 设置参数
-ticker = 'QQQ'  # 纳斯达克100 ETF
+monthlyInvest = 500  # 每月投入金额
+
+# 获取随机时间点并去掉时间部分
+randTime = randomDate(startDate, endDate - spanTime).date()
 
 enterDate = randTime
 # endDate = '2025-2-28'
 
-monthlyInvest = 500  # 每月投入金额
-
-# 下载数据
-tradeData = yf.download(ticker, start=enterDate, end=endDate)
+if 'tradeData' in locals():
+    del tradeData
+while True:
+    # 下载数据
+    tradeData = yf.download(ticker, start = enterDate, end = endDate)
+    if not tradeData.empty:
+        break
 
 # 确保 'Close' 是一维的 Series
 if isinstance(tradeData['Close'], pd.DataFrame):
@@ -92,7 +96,7 @@ ax.text(0.05, 0.7, f"总收益率：  {returnRate:.2f}%", transform=ax.transAxes
 ax.text(0.05, 0.65, f"年化收益率：{annualized:.2f}%", transform=ax.transAxes, fontsize=12, color="black",
         verticalalignment='top', horizontalalignment='left')
 plt.ylabel('USD')
-plt.savefig(ticker + '--' + str(enterDate) + '--' + str(endDate).rsplit(" ", 1)[0] + '--USD')
 plt.grid(True)
+plt.savefig(ticker.replace('.','-') + '--' + str(enterDate) + '--' + str(endDate).rsplit(" ", 1)[0] + '--USD')
 
-plt.show()
+# plt.show()
