@@ -7,7 +7,7 @@ Thanks to [enhen-x](https://github.com/enhen-x) for the inspiration and contribu
 2.生成投资表现曲线和简报，并保存为图片  
   
 ## 修改ticker项目为
-1.'QQQ'纳斯达克100指数ETF 
+1.'QQQ'纳斯达克100指数ETF  
 2.'SPY'标普500指数ETF  
 3.'IWM'罗素2000指数ETF  
 4.'000001.SS'上证综合指数  
